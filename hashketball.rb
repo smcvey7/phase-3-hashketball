@@ -1,4 +1,6 @@
 # Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -127,3 +129,97 @@ def game_hash
 end
 
 # Write code here
+def num_points_scored(name)
+  points = nil
+
+  game_hash.each do |team, team_hash|
+    team_hash[:players].each do |player, player_hash|
+      if player[:player_name] == name
+        points = player[:points]
+        break
+      end
+    end
+  end
+  points
+end
+
+def shoe_size(name)
+  size = nil
+
+  game_hash.each do |team, team_hash|
+    team_hash[:players].each do |player, player_hash|
+      if player[:player_name] == name
+        size = player[:shoe]
+        break
+      end
+    end
+  end
+  size
+end
+
+def team_colors(name)
+  colors = nil
+
+  game_hash.each do |team, team_hash|
+
+    if team_hash[:team_name] == name
+      colors = team_hash[:colors]
+      break
+    end
+  end
+  colors
+end
+
+def team_names
+  game_hash.collect do |team, team_hash|
+    team_hash[:team_name]
+  end
+end
+
+def player_numbers(team_name)
+  numbers = []
+  game_hash.each do |team, team_hash|
+
+    if team_hash[:team_name] == team_name
+      numbers =team_hash[:players].collect {|player| player[:number]}
+    end
+  end
+  numbers
+end
+
+def player_stats(name)
+  stats = nil
+
+  game_hash.each do |team, team_hash|
+
+    team_hash[:players].each do |player, player_hash|
+      if player[:player_name] == name
+        stats = {
+          player_name: player[:player_name],
+          number: player[:number],
+          points: player[:points],
+          rebounds: player[:rebounds],
+          assists: player[:assists],
+          steals: player[:steals],
+          blocks: player[:blocks],
+          slam_dunks: player[:slam_dunks],
+          shoe: player[:shoe]
+        }
+        break
+      end
+    end
+  end
+  stats
+end
+
+def big_shoe_rebounds
+  info = Hash.new
+  game_hash.each do |team, team_hash|
+    team_hash[:players].each do |player, player_hash|
+      info[player[:shoe]] = player[:rebounds]
+
+    end
+  end
+  binding.pry
+  info[info.keys.max]
+end
